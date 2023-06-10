@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Success</title>
+  <link rel="stylesheet" href="sucess.css">
+</head>
+<body>
+  <div class="success-container">
+    <h2>Form Submitted Successfully</h2>
+    <div id="formDetails"></div>
+  </div>
+
+  <script>
+    window.onload = function() {
+      var formData = localStorage.getItem("formData");
+      if (formData) {
+        formData = JSON.parse(formData);
+        displayFormDetails(formData);
+        localStorage.removeItem("formData");
+      }
+    };
+
+    function displayFormDetails(formData) {
+      var formDetailsContainer = document.getElementById("formDetails");
+
+      var detailsHTML = `
+        <h3>Submitted Details:</h3>
+        <p><strong>First Name:</strong> ${formData.firstName}</p>
+        <p><strong>Email:</strong> ${formData.email}</p>
+        <p><strong>Mobile:</strong> ${formData.phone}</p>
+        <p><strong>Gender:</strong> ${formData.gender}</p>
+        <p><strong>Date of Birth:</strong> ${formData.dob}</p>
+        <p><strong>Age:</strong> ${calculateAge(formData.dob)}</p>
+        <p><strong>Interested Programs:</strong> ${getInterestedPrograms(formData)}</p>
+        <p><strong>Address:</strong> ${formData.address}</p>
+      `;
+
+      formDetailsContainer.innerHTML = detailsHTML;
+    }
+
+    function calculateAge(dateOfBirth) {
+      var dob = new Date(dateOfBirth);
+      var currentDate = new Date();
+      var ageDiff = currentDate - dob;
+      var ageDate = new Date(ageDiff);
+      var calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
+      return calculatedAge;
+    }
+
+    function getInterestedPrograms(formData) {
+      var programs = [];
+      if (formData.management) {
+        programs.push("Management");
+      }
+      if (formData.marketing) {
+        programs.push("Marketing");
+      }
+      if (formData.operations) {
+        programs.push("Operations");
+      }
+      return programs.join(", ");
+    }
+  </script>
+</body>
+</html>      

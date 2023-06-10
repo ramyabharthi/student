@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="form-container">
+    <h2>STUDENT ENROLLMENT FORM</h2>
+    <form id="enrollmentForm" method="post" onsubmit="submitForm(event)">
+      <div class="field">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" placeholder="First Name">
+        <label id="firstNameErrorMessage" class="error-message"></label>
+      </div>
+      <div class="field">
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="Email">
+        <label id="emailErrorMessage" class="error-message"></label>
+      </div>
+      <div class="field">
+        <label for="mobile">Mobile:</label>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{10}">
+        <label id="phoneErrorMessage" class="error-message"></label>
+      </div>
+      <div class="field">
+        <label>Gender:</label>
+        <input type="radio" value="male" name="gender">Male
+        <input type="radio" value="female" name="gender">Female
+        <label id="genderErrorMessage" class="error-message"></label>
+      </div>
+      <div class="field">
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob">
+        <label id="dobErrorMessage" class="error-message"></label>
+      </div>
+      <div class="field">
+        <label>Age:</label>
+        <span id="age"></span>
+      </div>
+      <div class="field">
+        <label>Interested Program:</label>
+        <div class="checkbox-group">
+          <input type="checkbox" id="management" value="Management">
+          <label for="management">Management</label>
+          <input type="checkbox" id="marketing" value="Marketing">
+          <label for="marketing">Marketing</label>
+          <input type="checkbox" id="operations" value="Operations">
+          <label for="operations">Operations</label>
+        </div>
+        <label id="programErrorMessage" class="error-message"></label>
+      </div>
+      <div class="field">
+        <label for="address">Address:</label>
+        <textarea id="address" placeholder="Address"></textarea>
+        <label id="addressErrorMessage" class="error-message"></label>
+      </div>
+      <div class="field">
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function submitForm(event) {
+      event.preventDefault();
+      var firstName = document.getElementById("firstName");
+      var email = document.getElementById("email");
+      var phone = document.getElementById("phone");
+      var gender = document.querySelector('input[name="gender"]:checked');
+      var dob = document.getElementById("dob");
+      var address = document.getElementById("address");
+      var managementCheckbox = document.getElementById("management");
+      var marketingCheckbox = document.getElementById("marketing");
+      var operationsCheckbox = document.getElementById("operations");
+      var firstNameErrorMessage = document.getElementById("firstNameErrorMessage");
+      var emailErrorMessage = document.getElementById("emailErrorMessage");
+      var phoneErrorMessage = document.getElementById("phoneErrorMessage");
+      var genderErrorMessage = document.getElementById("genderErrorMessage");
+      var dobErrorMessage = document.getElementById("dobErrorMessage");
+      var addressErrorMessage = document.getElementById("addressErrorMessage");
+      var programErrorMessage = document.getElementById("programErrorMessage");
+
+      // Reset error messages
+      firstNameErrorMessage.textContent = "";
+      emailErrorMessage.textContent = "";
+      phoneErrorMessage.textContent = "";
+      genderErrorMessage.textContent = "";
+      dobErrorMessage.textContent = "";
+      addressErrorMessage.textContent = "";
+      programErrorMessage.textContent = "";
+
+      if (firstName.value.trim() === "") {
+        firstNameErrorMessage.textContent = "Please enter your First Name.";
+        firstNameErrorMessage.style.color = "red";
+        firstNameErrorMessage.style.display = "block";
+        return;
+      }
+
+      if (email.value.trim() === "") {
+        emailErrorMessage.textContent = "Please enter your Email.";
+        emailErrorMessage.style.color = "red";
+        emailErrorMessage.style.display = "block";
+        return;
+      }
+
+      if (phone.value.trim() === "") {
+        phoneErrorMessage.textContent = "Please enter your Mobile number.";
+        phoneErrorMessage.style.color = "red";
+        phoneErrorMessage.style.display = "block";
+        return;
+      }
+
+      if (!gender) {
+        genderErrorMessage.textContent = "Please select your Gender.";
+        genderErrorMessage.style.color = "red";
+        genderErrorMessage.style.display = "block";
+        return;
+      }
+
+      if (dob.value.trim() === "") {
+        dobErrorMessage.textContent = "Please enter your Date of Birth.";
+        dobErrorMessage.style.color = "red";
+        dobErrorMessage.style.display = "block";
+        return;
+      }
+
+      if (address.value.trim() === "") {
+        addressErrorMessage.textContent = "Please enter your Address.";
+        addressErrorMessage.style.color = "red";
+        addressErrorMessage.style.display = "block";
+        return;
+      }
+
+      if (!managementCheckbox.checked && !marketingCheckbox.checked && !operationsCheckbox.checked) {
+        programErrorMessage.textContent = "Please select at least one Interested Program.";
+        programErrorMessage.style.color = "red";
+        programErrorMessage.style.display = "block";
+        return;
+      }
+
+      var formData = {
+        firstName: firstName.value,
+        email: email.value,
+        phone: phone.value,
+        gender: gender.value,
+        dob: dob.value,
+        address: address.value,
+        management: managementCheckbox.checked,
+        marketing: marketingCheckbox.checked,
+        operations: operationsCheckbox.checked
+      };
+
+      localStorage.setItem("formData", JSON.stringify(formData));
+      window.location.href = "success.html";
+    }
+  </script>
+</body>
+</html>
